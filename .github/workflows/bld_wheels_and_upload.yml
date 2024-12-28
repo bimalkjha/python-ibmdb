@@ -99,7 +99,7 @@ jobs:
           pip install cibuildwheel delocate build
       - name: Build the wheel for macOS
         env:
-          CIBW_SKIP: "cp36-* cp37-* cp38-* pp3*"
+          CIBW_SKIP: "cp36-* cp37-* pp36-* pp37-*"
           CIBW_ARCHS_MACOS: "arm64"
         run: |
           cibuildwheel --platform macos --output-dir dist
@@ -151,11 +151,11 @@ jobs:
         id: version
         run: |
            cd dist
-           pip install ibm_db*
-           echo "VERSION=$(python -c 'import ibm_db; print(ibm_db.__version__)')" >> $GITHUB_OUTPUT
+           pip install ibm_db2*
+           echo "VERSION=$(python -c 'import ibm_db; print(ibm_db2.__version__)')" >> $GITHUB_OUTPUT
       - name: Build source distribution
         run: |
-          PACKAGE="ibm_db-$VERSION"
+          PACKAGE="ibm_db2-$VERSION"
           cd dist
           tar -xzf $PACKAGE.tar.gz
           rm -rf $PACKAGE/clidriver*

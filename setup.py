@@ -30,7 +30,7 @@ from setuptools import setup, find_packages, Extension
 from setuptools.command.build_ext import build_ext
 from setuptools.command.install import install
 
-PACKAGE = 'ibm_db'
+PACKAGE = 'ibm_db2'
 VERSION = '0.0.1'
 LICENSE = 'Apache License 2.0'
 readme = os.path.join(os.path.dirname(__file__),'README.md')
@@ -209,14 +209,14 @@ def _ext_modules(include_dir, library, lib_dir, runtime_dir=None):
             ext_args['extra_objects'] = [os.path.join(os.getcwd(), "libdsnao64c.x")]
         if runtime_dir:
             ext_args['runtime_library_dirs'] = [runtime_dir]
-        ibm_db = Extension('ibm_db', **ext_args)
+        ibm_db = Extension('ibm_db2', **ext_args)
         return [ibm_db]
     except Exception as e:
         _printOnly("Compilation of IBM_DB failed : " + str(e))
 
 # set the win32 env, if not present
 def _setWinEnv(name, value):
-    pyFile = open('ibm_db.py', 'r+')
+    pyFile = open('ibm_db2.py', 'r+')
     old = pyFile.read()
     if name not in old:
         pyFile.seek(0)
@@ -229,7 +229,7 @@ def _setWinEnv(name, value):
 
 # add add_dll_directory to ibm_db.py for python 3.8. refer https://bugs.python.org/issue36085 for details
 def _setDllPath():
-    pyFile = open('ibm_db.py', 'r+')
+    pyFile = open('ibm_db2.py', 'r+')
     old = pyFile.read()
     if "add_dll_directory" not in old:
         pyFile.seek(0)
@@ -275,9 +275,9 @@ def print_exception( e, url):
 if('win32' in sys.platform):
     prebuildPYDname = ''
     if is64Bit:
-        prebuildPYDname = "ibm_db64_py%i%i.pyd" % (sys.version_info[0], sys.version_info[1])
+        prebuildPYDname = "ibm_db264_py%i%i.pyd" % (sys.version_info[0], sys.version_info[1])
     else:
-        prebuildPYDname = "ibm_db32_py%i%i.pyd" % (sys.version_info[0], sys.version_info[1])
+        prebuildPYDname = "ibm_db232_py%i%i.pyd" % (sys.version_info[0], sys.version_info[1])
 
     if os.path.isfile(prebuildPYDname):
         # creating ibm_db_dlls package to put ibm_db.dll
@@ -368,7 +368,7 @@ if ((ibm_db_home == '') and (ibm_db_dir == '') and (ibm_db_lib == '')):
         _printAndExit("Not a known platform for python ibm_db.")
 
     tmp_path = get_python_lib()
-    easy_cli_path = os.path.join(tmp_path, 'ibm_db-%s.egg' % ("-".join([VERSION, "py"+sys.version.split(" ")[0][0:3]]) if('win32' in sys.platform) else "-".join([VERSION, "py"+sys.version.split(" ")[0][0:3], os_, arch_])), 'clidriver')
+    easy_cli_path = os.path.join(tmp_path, 'ibm_db2-%s.egg' % ("-".join([VERSION, "py"+sys.version.split(" ")[0][0:3]]) if('win32' in sys.platform) else "-".join([VERSION, "py"+sys.version.split(" ")[0][0:3], os_, arch_])), 'clidriver')
     pip_cli_path = os.path.join(tmp_path, 'clidriver')
     ibm_db_lib_runtime = os.path.join('$ORIGIN', 'clidriver', 'lib')
     ibm_db_dir = 'clidriver'
@@ -412,8 +412,8 @@ else:
         os.environ['_TAG_REDIR_OUT']='txt'
 
 if ('win32' not in sys.platform):
-    if os.path.isfile('ibm_db.py'):
-        os.rename("ibm_db.py","ibm_db_win.py")
+    if os.path.isfile('ibm_db2.py'):
+        os.rename("ibm_db2.py","ibm_db_win.py")
 
 if ibm_db_dir == '':
     try:
@@ -500,7 +500,7 @@ elif (sys.platform[0:3] == 'win'):
       library = ['db2cli']
     if prebuildIbmdbPYD:
         ext_modules = None
-        modules.append('ibm_db')
+        modules.append('ibm_db2')
     else:
         ext_modules = _ext_modules(ibm_db_include, library, ibm_db_lib)
 else:
