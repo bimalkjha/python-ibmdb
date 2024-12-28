@@ -152,7 +152,7 @@ jobs:
         run: |
            cd dist
            pip install ibm_db2*
-           echo "VERSION=$(python -c 'import ibm_db; print(ibm_db2.__version__)')" >> $GITHUB_OUTPUT
+           echo "VERSION=$(python -c 'import ibm_db2; print(ibm_db2.__version__)')" >> $GITHUB_OUTPUT
       - name: Build source distribution
         run: |
           PACKAGE="ibm_db2-$VERSION"
