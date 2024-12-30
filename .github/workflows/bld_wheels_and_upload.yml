@@ -78,7 +78,7 @@ jobs:
           name: ibmdb-wheels-${{ matrix.os }}
           path: wheelhouse/*.whl
 
-  build_macos_arm64_wheels:
+  build_wheels_macos_arm64:
     name: Build wheels on macOS ARM64
     runs-on: macos-14
     steps:
@@ -162,7 +162,7 @@ jobs:
 
 
   upload_pypi:
-    needs: [build_wheels_windows_64, build_wheels_windows_32, build_wheels_linux, build_macos_arm64_wheel, build_wheels_macos_x86, build_sdist]
+    needs: [build_wheels_windows_64, build_wheels_windows_32, build_wheels_linux, build_wheels_macos_arm64, build_wheels_macos_x86, build_sdist]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
