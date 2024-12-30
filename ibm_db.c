@@ -15622,7 +15622,7 @@ static PyMethodDef ibm_db_Methods[] = {
 #if PY_MAJOR_VERSION >= 3
 static struct PyModuleDef moduledef = {
         PyModuleDef_HEAD_INIT,
-        "ibm_db",
+        "ibm_db2",
         "IBM DataServer Driver for Python.",
         -1,
         ibm_db_Methods,
@@ -15631,7 +15631,7 @@ static struct PyModuleDef moduledef = {
 
 /* Module initialization function */
 PyMODINIT_FUNC
-INIT_ibm_db(void) {
+INIT_ibm_db2(void) {
     PyObject* m;
 
     PyDateTime_IMPORT;
@@ -15659,7 +15659,7 @@ INIT_ibm_db(void) {
         return MOD_RETURN_ERROR;
 
 #if PY_MAJOR_VERSION < 3
-    m = Py_InitModule3("ibm_db", ibm_db_Methods,  "IBM DataServer Driver for Python.");
+    m = Py_InitModule3("ibm_db2", ibm_db_Methods,  "IBM DataServer Driver for Python.");
 #else
     m = PyModule_Create(&moduledef);
 #endif

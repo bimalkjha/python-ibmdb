@@ -36,7 +36,7 @@
 #define Py_TYPE(ob)            (((PyObject*)(ob))->ob_type)
 #define MOD_RETURN_ERROR
 #define MOD_RETURN_VAL(mod)
-#define INIT_ibm_db                 initibm_db
+#define INIT_ibm_db2                initibm_db2
 #else
 #define PyInt_Check                 PyLong_Check
 #define PyInt_FromLong              PyLong_FromLong
@@ -50,7 +50,7 @@
 #define StringObj_Size              PyUnicode_GET_LENGTH
 #define MOD_RETURN_ERROR            NULL
 #define MOD_RETURN_VAL(mod)         mod
-#define INIT_ibm_db PyInit_ibm_db
+#define INIT_ibm_db2 PyInit_ibm_db2
 #endif
 
 #define NUM2LONG(data) PyInt_AsLong(data)
