@@ -444,7 +444,7 @@ If you intend to install the clidriver manually, Following are the details of th
 |AIX           |  ppc           |aix32_odbc_cli.tar.gz    |  Yes         | V11.5.9       |
 |              |  others        |aix64_odbc_cli.tar.gz    |  Yes         | V11.5.9       |
 |Darwin        |  x64           |macos64_odbc_cli.tar.gz  |  Yes         | Till V11.5.9  |
-               |  arm64         |macarm64_odbc_cli.tar.gz |  Yes         | From V12.1.0  |
+|              |  arm64         |macarm64_odbc_cli.tar.gz |  Yes         | From V12.1.0  |
 |Linux         |  x64           |linuxx64_odbc_cli.tar.gz |  Yes         | V11.5.9       |
 |              |  s390x         |s390x64_odbc_cli.tar.gz  |  Yes         | V11.5.9       |
 |              |  s390          |s390_odbc_cli.tar.gz     |  Yes         | V11.1         |
