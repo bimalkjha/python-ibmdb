@@ -7,46 +7,6 @@ on:
     branches: [master, wheelFix]
 
 jobs:
-  build_wheels_windows_64:
-    name: Build wheels on ${{ matrix.os }} 64-bit
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest]
-
-    steps:
-      - uses: actions/checkout@v4.2.2
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.22.0
-        env:
-          CIBW_BUILD: "*-win_amd64"
-          CIBW_SKIP: "cp36-* pp*"
-
-      - uses: actions/upload-artifact@v4.4.3
-        with:
-          name: ibmdb-wheels64-${{ matrix.os }}
-          path: wheelhouse/*.whl
-
-  build_wheels_windows_32:
-    name: Build wheels on ${{ matrix.os }} 32-bit
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest]
-
-    steps:
-      - uses: actions/checkout@v4.2.2
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.22.0
-        env:
-          CIBW_BUILD: "*-win32"
-          CIBW_SKIP: "cp36-* pp*"
-
-      - uses: actions/upload-artifact@v4.4.3
-        with:
-          name: ibmdb-wheels32-${{ matrix.os }}
-          path: wheelhouse/*.whl
-
   build_wheels_linux:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -78,52 +38,12 @@ jobs:
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
           CIBW_ENVIRONMENT: >
             PIP_NO_CACHE_DIR=1
-            IBM_DB_HOME=/project/clidriver
+            IBM_DB_HOME=/home/runner/work/python-ibmdb/python-ibmdb/clidriver
         run: |
           python -m cibuildwheel --output-dir wheelhouse
 
       - name: List built wheels
         run: ls -l wheelhouse
-
-  build_wheels_macos_arm64:
-    name: Build wheels on macOS ARM64
-    runs-on: macos-14
-    strategy:
-      matrix:
-        architecture: [arm64]
-
-    steps:
-      - uses: actions/checkout@v4.2.2
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.22.0
-        env:
-          CIBW_SKIP: "cp36-* cp37-* cp38-* pp*"
-          MACOSX_DEPLOYMENT_TARGET: 14.0
-
-      - uses: actions/upload-artifact@v4.4.3
-        with:
-          name: ibmdb-wheelsarm64
-          path: wheelhouse/*.whl
-
-  build_wheels_macos_x86:
-    name: Build wheels for macOS x86_64
-    runs-on: macos-13
-    strategy:
-      matrix:
-        architecture: [x86_64]
-
-    steps:
-      - uses: actions/checkout@v4.2.2
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.22.0
-        env:
-          CIBW_SKIP: "cp36-* pp*"
-          MACOSX_DEPLOYMENT_TARGET: 10.15
-
-      - uses: actions/upload-artifact@v4.4.3
-        with:
-          name: ibmdb-wheelsx86-${{ matrix.os }}
-          path: wheelhouse/*.whl
 
   build_sdist:
     name: Build source distribution
@@ -158,25 +78,3 @@ jobs:
           name: ibmdb-sdist
           path: dist/*.tar.gz
 
-  upload_pypi:
-    needs: [build_wheels_windows_64, build_wheels_windows_32, build_wheels_linux, build_wheels_macos_arm64, build_wheels_macos_x86, build_sdist]
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    permissions:
-      # IMPORTANT: this permission is mandatory for trusted publishing
-      id-token: write
-
-    #upload to PyPI on every tag starting with 'v'
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
-    steps:
-    - uses: actions/download-artifact@v4.1.7
-      with:
-        path: dist
-        pattern: ibmdb-*
-        merge-multiple: true
-
-    - name: Publish distribution to PyPI
-      if: startsWith(github.ref, 'refs/tags')
-      uses: pypa/gh-action-pypi-publish@release/v1.12
