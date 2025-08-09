@@ -72,8 +72,8 @@ jobs:
 
       - name: Build wheels
         env:
-          CIBW_BUILD: cp${{ matrix.python-version/./ }}-*  # Example: cp38-*
-          CIBW_SKIP: "cp36-* cp37-* *-musllinux_* pp* *-*linux_{aarch64,ppc64le}"
+          CIBW_BUILD: cp${{ matrix.python-version }}-*  # Example: cp38-*
+          CIBW_SKIP: "*-musllinux_* pp* *-*linux_{aarch64,ppc64le}"
           CIBW_ARCHS_LINUX: x86_64
           CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
           CIBW_ENVIRONMENT: >
